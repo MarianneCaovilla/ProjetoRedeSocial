@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Social - Login</title>
+
+    <link rel="stylesheet" href="../css/login_register.css">
+    <script type="module" src="../js/login.js"></script>
+</head>
+
+<body>
+    <main class="container">
+        <div class="card">
+            <h1 class="logo">Social</h1>
+
+            <p class="subtitle">
+                Conecte-se com seus amigos.
+            </p>
+
+            <form id="login-form">
+                <input type="text"
+                       id="login"
+                       placeholder="Nome de usuário"
+                       required>
+
+                <input type="password"
+                       id="senha"
+                       placeholder="Senha"
+                       required>
+
+                <button type="submit">Entrar</button>
+            </form>
+            <p id="mensagem" role="status"></p>
+            <div class="separator">OU</div>
+            <a href="../index.html">Voltar para o início</a>
+        </div>
+
+        <div class="card-bottom">
+            <p>
+                Não tem uma conta?
+                <a href="./register.html">Cadastre-se</a>
+            </p>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Social - Cadastro</title>
+
+    <link rel="stylesheet" href="../css/login_register.css">
+    <script type="module" src="../js/register.js"></script>
+</head>
+
+<body>
+    <main class="container">
+        <div class="card">
+            <h1 class="logo">Social</h1>
+
+            <p class="subtitle">
+                Cadastre-se para compartilhar seus momentos.
+            </p>
+
+            <form id="register-form">
+                <input type="text"
+                       id="nome"
+                       placeholder="Nome completo"
+                       required>
+                <input type="text"
+                       id="login"
+                       placeholder="Nome de usuário"
+                       required>
+                <input type="password"
+                       id="senha"
+                       placeholder="Senha"
+                       required>
+                <input type="url"
+                       id="img"
+                       placeholder="URL da foto de perfil (opcional)">
+                <button type="submit">Cadastre-se</button>
+            </form>
+
+            <p id="mensagem" role="status"></p>
+
+            <a href="../index.html">Voltar para o início</a>
+        </div>
+
+        <div class="card-bottom">
+            <p>
+                Já tem uma conta?
+                <a href="./login.html">Entrar</a>
+            </p>
+        </div>
+    </main>
+</body>
+</html>

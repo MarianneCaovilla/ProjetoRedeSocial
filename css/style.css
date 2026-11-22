@@ -6,76 +6,333 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #222;
+    background-color: #f8f9fc;
+    color: #1f2937;
 }
 
 header {
-    background-color: #2563eb;
-    color: white;
-    padding: 20px;
-    text-align: center;
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
+.header-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 18px 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 32px;
+    color: #4f46e5;
+    letter-spacing: -2px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+nav a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+
 main {
-    max-width: 700px;
+    max-width: 600px;
     margin: 30px auto;
     padding: 0 15px;
 }
 
-#feed h2 {
+h2 {
+    font-size: 20px;
     margin-bottom: 20px;
 }
 
+
+#create-post {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+#post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+textarea,
+input {
+    width: 100%;
+    padding: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #f8f9fc;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+textarea:focus,
+input:focus {
+    border-color: #6366f1;
+}
+
+button {
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4f46e5;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
 .post {
     background-color: white;
-    padding: 20px;
-    margin-bottom: 15px;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.post h3 {
-    margin-bottom: 10px;
-    color: #2563eb;
-}
-
-.post p {
-    margin-bottom: 15px;
-    overflow-wrap: anywhere;
-}
-
-.post span {
-    color: #666;
-    font-size: 14px;
-}
-
-.post-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    overflow: hidden;
 }
 
 .post-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 15px;
+    padding: 15px;
 }
 
 .avatar {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     object-fit: cover;
-    background-color: #dbeafe;
+    background-color: #e0e7ff;
     flex-shrink: 0;
 }
 
 .post-header h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #111827;
+    font-size: 15px;
+    color: #1f2937;
+}
+
+.post p {
+    padding: 12px 15px;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.post-image {
+    display: block;
+    width: 100%;
+    max-height: 650px;
+    object-fit: contain;
+}
+
+.post span {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.post > span {
+    display: block;
+    padding: 15px;
+}
+
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
+}
+
+.post-actions button {
+    background-color: transparent;
+    color: #4f46e5;
+    padding: 5px;
+}
+
+.post-actions button:hover {
+    background-color: #eef2ff;
+}
+
+
+.comments {
+    border-top: 1px solid #e5e7eb;
+    padding: 15px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.comment .avatar {
+    width: 32px;
+    height: 32px;
+}
+
+.comment p {
+    padding: 5px 0;
+    font-size: 14px;
+}
+
+.comment-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+
+#post-mensagem {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+
+@media (max-width: 600px) {
+
+    .header-container {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 28px;
+    }
+
+    nav {
+        gap: 12px;
+    }
+
+    main {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+
+    .post {
+        margin-bottom: 15px;
+    }
+
+    .comment-form {
+        flex-wrap: wrap;
+    }
+}
+
+.heart {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.post-header h3 {
+    flex: 1;
+}
+
+.post-header button {
+    background-color: transparent;
+    color: #6366f1;
+    padding: 5px;
+    font-size: 13px;
+}
+
+.post-header button:hover {
+    background-color: #eef2ff;
+}
+
+/* Modais */
+
+dialog {
+    width: 400px;
+    max-width: 90%;
+    margin: auto;
+    padding: 25px;
+
+    background-color: white;
+    color: #1f2937;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+dialog h2 {
+    color: #4f46e5;
+    margin-bottom: 20px;
+}
+
+dialog p {
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+dialog textarea {
+    width: 100%;
+    min-height: 120px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#cancel-edit,
+#cancel-delete {
+    background-color: #eef2ff;
+    color: #4f46e5;
+}
+
+#confirm-delete {
+    background-color: #dc2626;
+    color: white;
+}
+
+#confirm-delete:hover {
+    background-color: #b91c1c;
 }
