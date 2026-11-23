@@ -1,7 +1,7 @@
 import { getPosts, getUsers } from "./services/getService.js";
-import { createPost, toggleLike } from "./services/postService.js";
+import { createPost, toggleLike, createComents } from "./services/postService.js";
 import { updatePost } from "./services/putService.js";
-import { deletePost } from "./services/deleteService.js";
+import { deletePost, deleteComment } from "./services/deleteService.js";
 
 const postsContainer = document.getElementById("posts-container");
 const token = localStorage.getItem("token");
@@ -121,6 +121,38 @@ async function carregarPosts() {
 
             div.appendChild(comentarios);
 
+            if (usuarioLogado && token) {
+                const formComentario = document.createElement("form");
+                formComentario.classList.add("comment-form");
+
+                const input = document.createElement("input");
+                input.type = "text";
+                input.placeholder = "Escreva um comentário...";
+
+                const botao = document.createElement("button");
+                botao.type = "submit";
+                botao.textContent = "Comentar";
+
+                formComentario.addEventListener("submit", async (event) => {
+                    event.preventDefault();
+
+                    if (input.value.trim() === "") {
+                        return;
+                    }
+
+                    try {
+                        await createComents(input.value, post.id, token);
+                        await carregarPosts();
+                    } catch (error) {
+                        alert(error.message);
+                    }
+                });
+
+            formComentario.appendChild(input);
+            formComentario.appendChild(botao);
+            div.appendChild(formComentario);
+        }
+
             postsContainer.appendChild(div);
         });
 
@@ -159,6 +191,22 @@ function carregarComentarios(comentario) {
 
     div.appendChild(avatar);
     div.appendChild(conteudo);
+
+    if (usuarioLogado && usuarioLogado.id === comentario.usuario) {
+        const excluir = document.createElement("button");
+        excluir.textContent = "Excluir";
+
+        excluir.addEventListener("click", async () => {
+            try {
+                await deleteComment(comentario.id, token);
+                await carregarPosts();
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        div.appendChild(excluir);
+    }
 
     return div;
 }

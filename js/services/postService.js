@@ -25,7 +25,7 @@ export async function createComents(texto, id, token){
         method: "POST",
         headers: {
             "Content-type": "application/json",
-            "Authorization": token
+            "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
             texto: texto
