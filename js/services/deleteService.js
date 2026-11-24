@@ -8,7 +8,9 @@ export async function deletePost(id, token) {
         }
     });
     if (!response.ok) {
-        throw new Error("Erro ao excluir post");
+    
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.msg || "Erro ao excluir post");
     }
     return true;
 }
@@ -21,7 +23,8 @@ export async function deleteComment(id, token) {
         }
     });
     if (!response.ok) {
-        throw new Error("Erro ao excluir comentário");
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.msg || "Erro ao excluir comentário");
     }
     return true;
 }

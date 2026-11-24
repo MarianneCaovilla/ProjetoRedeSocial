@@ -31,8 +31,9 @@ export async function createComents(texto, id, token){
             texto: texto
         })
     })
-    if(!response.ok){
-        throw new Error("Erro em postar o comentário.")
+    if (!response.ok) {
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.msg || "Erro em postar o comentário.");
     }
     return await response.json();
 }

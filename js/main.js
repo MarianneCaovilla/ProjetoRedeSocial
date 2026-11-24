@@ -1,4 +1,4 @@
-import { getPosts, getUsers } from "./services/getService.js";
+import { getPosts, getUsers, checkUser } from "./services/getService.js";
 import { createPost, toggleLike, createComents } from "./services/postService.js";
 import { updatePost, updateComment } from "./services/putService.js";
 import { deletePost, deleteComment } from "./services/deleteService.js";
@@ -100,7 +100,7 @@ async function carregarPosts() {
                     await carregarPosts();
 
                 } catch (error) {
-                    alert(error.message);
+                    tratarErro(error);
                 }
             });
 
@@ -144,7 +144,7 @@ async function carregarPosts() {
                         await createComents(input.value, post.id, token);
                         await carregarPosts();
                     } catch (error) {
-                        alert(error.message);
+                        tratarErro(error);
                     }
                 });
 
@@ -201,7 +201,7 @@ function carregarComentarios(comentario) {
                 await deleteComment(comentario.id, token);
                 await carregarPosts();
             } catch (error) {
-                alert(error.message);
+                tratarErro(error);
             }
         });
 
@@ -275,7 +275,12 @@ postForm.addEventListener("submit", async (event) => {
         await carregarPosts();
 
     } catch (error) {
-        mensagem.textContent = error.message;
+        if (error.message === "Token inválido") {
+            sessaoExpirada();
+        } 
+        else {
+            mensagem.textContent = error.message;
+        }
     }
 });
 
@@ -308,7 +313,7 @@ function abrirEdicao(post) {
             await carregarPosts();
 
         } catch (error) {
-            alert(error.message);
+            tratarErro(error);
         }
     };
 }
@@ -340,7 +345,7 @@ function abrirEdicaoComentario(comentario) {
             await carregarPosts();
 
         } catch (error) {
-            alert(error.message);
+            tratarErro(error);
         }
     };
 }
@@ -365,9 +370,35 @@ function abrirExclusao(post) {
             await carregarPosts();
 
         } catch (error) {
-            alert(error.message);
+            tratarErro(error);
         }
     };
 }
 
+function sessaoExpirada() {
+    alert("Você não está mais logado. Faça login novamente.");
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    window.location.href = "./pages/login.html";
+}
+
+function tratarErro(error) {
+    if (error.message === "Token inválido") {
+        sessaoExpirada();
+    } else {
+        alert(error.message);
+    }
+}
+
+async function verificarSessao() {
+    if (!token) return;
+
+    try {
+        await checkUser(token);
+    } catch (error) {
+        sessaoExpirada();
+    }
+}
+
+await verificarSessao();
 carregarPosts();

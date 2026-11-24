@@ -13,7 +13,8 @@ export async function updatePost(id, texto, img, token) {
         })
     });
     if (!response.ok) {
-        throw new Error("Erro ao editar post");
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.msg || "Erro ao editar post");
     }
     return true;
 }
@@ -30,7 +31,8 @@ export async function updateComment(id, texto, token) {
         })
     });
     if (!response.ok) {
-        throw new Error("Erro ao editar comentário");
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.msg || "Erro ao editar comentário");
     }
     return true;
 }
