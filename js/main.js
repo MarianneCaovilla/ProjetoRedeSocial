@@ -1,6 +1,6 @@
 import { getPosts, getUsers } from "./services/getService.js";
 import { createPost, toggleLike, createComents } from "./services/postService.js";
-import { updatePost } from "./services/putService.js";
+import { updatePost, updateComment } from "./services/putService.js";
 import { deletePost, deleteComment } from "./services/deleteService.js";
 
 const postsContainer = document.getElementById("posts-container");
@@ -205,7 +205,17 @@ function carregarComentarios(comentario) {
             }
         });
 
+        const editar = document.createElement("button");
+        editar.textContent = "Editar";
+
+        editar.addEventListener("click", () => {
+        abrirEdicaoComentario(comentario);
+        });
+
+        div.appendChild(editar);
+
         div.appendChild(excluir);
+
     }
 
     return div;
@@ -292,6 +302,38 @@ function abrirEdicao(post) {
 
         try {
             await updatePost(post.id, texto.value, post.img, token);
+
+            modal.close();
+
+            await carregarPosts();
+
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+}
+
+function abrirEdicaoComentario(comentario) {
+    const modal = document.getElementById("edit-modal");
+    const texto = document.getElementById("edit-texto");
+    const salvar = document.getElementById("save-edit");
+    const cancelar = document.getElementById("cancel-edit");
+
+    texto.value = comentario.texto;
+
+    modal.showModal();
+
+    cancelar.onclick = () => {
+        modal.close();
+    };
+
+    salvar.onclick = async () => {
+        if (texto.value.trim() === "") {
+            return;
+        }
+
+        try {
+            await updateComment(comentario.id, texto.value, token);
 
             modal.close();
 
