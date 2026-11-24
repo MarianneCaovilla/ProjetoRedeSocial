@@ -41,8 +41,6 @@ async function carregarPosts() {
 
             header.appendChild(dataPost);
 
-            header.appendChild(dataPost);
-
             if (usuarioLogado && usuarioLogado.id === post.usuario) {
 
                 const editar = document.createElement("button");
@@ -400,7 +398,7 @@ function sessaoExpirada() {
 }
 
 function tratarErro(error) {
-    if (error.message === "Token inválido") {
+    if (error.status === 401 || error.status === 403) {
         sessaoExpirada();
     } else {
         alert(error.message);
@@ -413,11 +411,10 @@ async function verificarSessao() {
     try {
         await checkUser(token);
     } catch (error) {
-        sessaoExpirada();
+        if (error.status === 401 || error.status === 403) {
+            sessaoExpirada();
+        } else {
+            console.error("Erro ao verificar sessão:", error);
+        }
     }
 }
-
-(async () => {
-    await verificarSessao();
-    carregarPosts();
-})();
