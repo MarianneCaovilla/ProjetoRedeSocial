@@ -418,3 +418,8 @@ async function verificarSessao() {
         }
     }
 }
+
+(async () => {
+    await verificarSessao();
+    await carregarPosts();
+})();
