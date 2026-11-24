@@ -1,17 +1,5 @@
-import { createUser } from "./services/postService.js";
-
 const form = document.getElementById("register-form");
 const mensagem = document.getElementById("mensagem");
-const img = document.getElementById("img");
-const preview = document.getElementById("preview");
-
-img.addEventListener("input", () => {
-    preview.src = img.value || "../images/avatar.png";
-});
-
-preview.addEventListener("error", () => {
-    preview.src = "../images/avatar.png";
-});
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -29,4 +17,16 @@ form.addEventListener("submit", async (event) => {
     catch (error) {
         mensagem.textContent = error.message;
     }
+});
+
+const campoImg = document.getElementById("img");
+const preview = document.getElementById("preview");
+
+campoImg.addEventListener("input", () => {
+    preview.src = campoImg.value || "../images/avatar.png";
+});
+
+preview.addEventListener("error", () => {
+    preview.onerror = null;
+    preview.src = "../images/avatar.png";
 });

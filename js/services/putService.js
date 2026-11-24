@@ -1,6 +1,6 @@
-const API_URL = "https://ifsp.trojahn.uk/redesocial";
+var API_URL = "https://ifsp.trojahn.uk/redesocial";
 
-export async function updatePost(id, texto, img, token) {
+async function updatePost(id, texto, img, token) {
     const response = await fetch(`${API_URL}/posts/${id}`, {
         method: "PUT",
         headers: {
@@ -12,14 +12,18 @@ export async function updatePost(id, texto, img, token) {
             img: img
         })
     });
+
     if (!response.ok) {
         const erro = await response.json().catch(() => ({}));
-        throw new Error(erro.msg || "Erro ao editar post");
+        const error = new Error(erro.msg || "Erro ao editar post");
+        error.status = response.status;
+        throw error;
     }
+
     return true;
 }
 
-export async function updateComment(id, texto, token) {
+async function updateComment(id, texto, token) {
     const response = await fetch(`${API_URL}/comentarios/${id}`, {
         method: "PUT",
         headers: {
@@ -30,9 +34,13 @@ export async function updateComment(id, texto, token) {
             texto: texto
         })
     });
+
     if (!response.ok) {
         const erro = await response.json().catch(() => ({}));
-        throw new Error(erro.msg || "Erro ao editar comentário");
+        const error = new Error(erro.msg || "Erro ao editar comentário");
+        error.status = response.status;
+        throw error;
     }
+
     return true;
 }

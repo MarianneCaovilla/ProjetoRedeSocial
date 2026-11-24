@@ -22,7 +22,6 @@ header {
     max-width: 1000px;
     margin: auto;
     padding: 18px 20px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -51,7 +50,6 @@ nav a:hover {
     text-decoration: underline;
 }
 
-
 main {
     max-width: 600px;
     margin: 30px auto;
@@ -63,6 +61,7 @@ h2 {
     margin-bottom: 20px;
 }
 
+/* Criar publicação */
 
 #create-post {
     background-color: white;
@@ -70,6 +69,10 @@ h2 {
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 25px;
+}
+
+#create-post[hidden] {
+    display: none;
 }
 
 #post-form {
@@ -119,6 +122,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* Publicações */
 
 .post {
     background-color: white;
@@ -147,6 +151,23 @@ button:disabled {
 .post-header h3 {
     font-size: 15px;
     color: #1f2937;
+    flex: 1;
+}
+
+.post-header span {
+    font-size: 12px;
+    color: #888;
+}
+
+.post-header button {
+    background-color: transparent;
+    color: #6366f1;
+    padding: 5px;
+    font-size: 13px;
+}
+
+.post-header button:hover {
+    background-color: #eef2ff;
 }
 
 .post p {
@@ -169,34 +190,49 @@ button:disabled {
     color: #6b7280;
 }
 
+.post-header span {
+    font-size: 12px;
+    color: #888;
+}
+
 .post > span {
     display: block;
     padding: 15px;
 }
 
+/* Curtidas */
 
-.post-actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding: 15px;
+.heart {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    margin: 10px;
 }
 
-.post-actions button {
-    background-color: transparent;
-    color: #4f46e5;
-    padding: 5px;
+/* Botão de comentários */
+
+.post > button {
+    background-color: white;
+    color: #6366f1;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
 }
 
-.post-actions button:hover {
+.post > button:hover {
     background-color: #eef2ff;
 }
 
+/* Comentários */
 
 .comments {
     border-top: 1px solid #e5e7eb;
     padding: 15px;
+}
+
+.comments[hidden] {
+    display: none;
 }
 
 .comment {
@@ -222,62 +258,12 @@ button:disabled {
     margin-top: 15px;
 }
 
+/* Mensagens */
 
 #post-mensagem {
     color: #dc2626;
     font-size: 14px;
     margin-top: 10px;
-}
-
-
-@media (max-width: 600px) {
-
-    .header-container {
-        padding: 15px;
-    }
-
-    .logo {
-        font-size: 28px;
-    }
-
-    nav {
-        gap: 12px;
-    }
-
-    main {
-        margin: 15px auto;
-        padding: 0 10px;
-    }
-
-    .post {
-        margin-bottom: 15px;
-    }
-
-    .comment-form {
-        flex-wrap: wrap;
-    }
-}
-
-.heart {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    margin: 10px;
-}
-
-.post-header h3 {
-    flex: 1;
-}
-
-.post-header button {
-    background-color: transparent;
-    color: #6366f1;
-    padding: 5px;
-    font-size: 13px;
-}
-
-.post-header button:hover {
-    background-color: #eef2ff;
 }
 
 /* Modais */
@@ -287,10 +273,8 @@ dialog {
     max-width: 90%;
     margin: auto;
     padding: 25px;
-
     background-color: white;
     color: #1f2937;
-
     border: 1px solid #e5e7eb;
     border-radius: 15px;
 }
@@ -337,20 +321,31 @@ dialog textarea {
     background-color: #b91c1c;
 }
 
-.post > button {
-    background-color: white;
-    color: #6366f1;
-    border: 1px solid white;
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-}
+/* Responsividade */
 
-.post > button:hover {
-    background-color: #eef2ff;
-}
+@media (max-width: 600px) {
+    .header-container {
+        padding: 15px;
+    }
 
-.post-header span {
-    font-size: 12px;
-    color: #888;
+    .logo {
+        font-size: 28px;
+    }
+
+    nav {
+        gap: 12px;
+    }
+
+    main {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+
+    .post {
+        margin-bottom: 15px;
+    }
+
+    .comment-form {
+        flex-wrap: wrap;
+    }
 }

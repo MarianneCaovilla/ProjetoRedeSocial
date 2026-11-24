@@ -1,5 +1,3 @@
-import { loginUser } from "./services/postService.js";
-
 const form = document.getElementById("login-form");
 const mensagem = document.getElementById("mensagem");
 

@@ -1,6 +1,6 @@
-const API_URL = "https://ifsp.trojahn.uk/redesocial"
+var API_URL = "https://ifsp.trojahn.uk/redesocial";
 
-export async function createPost(texto, img, token) {
+async function createPost(texto, img, token) {
     const response = await fetch(`${API_URL}/posts/`, {
         method: "POST",
         headers: {
@@ -14,31 +14,38 @@ export async function createPost(texto, img, token) {
     });
 
     if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.msg);
+        const erro = await response.json().catch(() => ({}));
+        const error = new Error(erro.msg || "Erro ao criar publicação.");
+        error.status = response.status;
+        throw error;
     }
+
     return true;
 }
 
-export async function createComents(texto, id, token){
-    const response = await fetch(`${API_URL}/posts/${id}/comentarios`,{
+async function createComents(texto, id, token) {
+    const response = await fetch(`${API_URL}/posts/${id}/comentarios`, {
         method: "POST",
         headers: {
-            "Content-type": "application/json",
+            "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
             texto: texto
         })
-    })
+    });
+
     if (!response.ok) {
         const erro = await response.json().catch(() => ({}));
-        throw new Error(erro.msg || "Erro em postar o comentário.");
+        const error = new Error(erro.msg || "Erro ao postar comentário.");
+        error.status = response.status;
+        throw error;
     }
-    return await response.json();
+
+    return true;
 }
 
-export async function createUser(nome, login, senha, img) {
+async function createUser(nome, login, senha, img) {
     const response = await fetch(`${API_URL}/usuarios/`, {
         method: "POST",
         headers: {
@@ -51,14 +58,16 @@ export async function createUser(nome, login, senha, img) {
             img: img
         })
     });
+
     if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.msg);
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.msg || "Erro ao cadastrar usuário.");
     }
+
     return await response.json();
 }
 
-export async function loginUser(login, senha) {
+async function loginUser(login, senha) {
     const response = await fetch(`${API_URL}/usuarios/login`, {
         method: "POST",
         headers: {
@@ -69,23 +78,29 @@ export async function loginUser(login, senha) {
             senha: senha
         })
     });
+
     if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.msg);
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.msg || "Erro ao fazer login.");
     }
+
     return await response.json();
 }
 
-export async function toggleLike(id, token) {
+async function toggleLike(id, token) {
     const response = await fetch(`${API_URL}/posts/${id}/likes`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`
         }
     });
+
     if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.msg);
+        const erro = await response.json().catch(() => ({}));
+        const error = new Error(erro.msg || "Erro ao curtir publicação.");
+        error.status = response.status;
+        throw error;
     }
+
     return true;
 }

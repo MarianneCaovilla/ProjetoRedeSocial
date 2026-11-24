@@ -1,8 +1,3 @@
-import { getPosts, getUsers, checkUser } from "./services/getService.js";
-import { createPost, toggleLike, createComents } from "./services/postService.js";
-import { updatePost, updateComment } from "./services/putService.js";
-import { deletePost, deleteComment } from "./services/deleteService.js";
-
 const postsContainer = document.getElementById("posts-container");
 const token = localStorage.getItem("token");
 const usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
@@ -43,6 +38,8 @@ async function carregarPosts() {
 
             const dataPost = document.createElement("span");
             dataPost.textContent = new Date(post.data).toLocaleDateString("pt-BR");
+
+            header.appendChild(dataPost);
 
             header.appendChild(dataPost);
 
@@ -118,6 +115,7 @@ async function carregarPosts() {
 
             const botaoComentarios = document.createElement("button");
             botaoComentarios.textContent = "Ver comentários (" + post.comentarios.length + ")";
+            botaoComentarios.classList.add("botao-comentarios");
 
             const comentarios = document.createElement("div");
             comentarios.classList.add("comments");
@@ -139,7 +137,7 @@ async function carregarPosts() {
 
             div.appendChild(botaoComentarios);
             div.appendChild(comentarios);
-            
+
             if (usuarioLogado && token) {
                 const formComentario = document.createElement("form");
                 formComentario.classList.add("comment-form");
@@ -402,11 +400,7 @@ function sessaoExpirada() {
 }
 
 function tratarErro(error) {
-    if (
-        error.status === 401 ||
-        error.status === 403 ||
-        error.message === "Token inválido"
-    ) {
+    if (error.message === "Token inválido") {
         sessaoExpirada();
     } else {
         alert(error.message);
@@ -415,16 +409,15 @@ function tratarErro(error) {
 
 async function verificarSessao() {
     if (!token) return;
+
     try {
         await checkUser(token);
     } catch (error) {
-        if (error.status === 401 || error.status === 403) {
-            sessaoExpirada();
-        } else {
-            console.error("Erro ao verificar sessão:", error);
-        }
+        sessaoExpirada();
     }
 }
 
-await verificarSessao();
-carregarPosts();
+(async () => {
+    await verificarSessao();
+    carregarPosts();
+})();
