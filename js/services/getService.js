@@ -46,9 +46,12 @@ export async function checkUser(token) {
     });
 
     if (!response.ok) {
-        throw new Error("Erro ao verificar autenticação");
+        const error = new Error("Erro ao verificar autenticação");
+        error.status = response.status;
+        throw error;
     }
-    return await response.json();
+
+    return true;
 }
 
 export async function getLikes(id) {

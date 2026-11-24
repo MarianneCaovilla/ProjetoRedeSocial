@@ -2,6 +2,16 @@ import { createUser } from "./services/postService.js";
 
 const form = document.getElementById("register-form");
 const mensagem = document.getElementById("mensagem");
+const img = document.getElementById("img");
+const preview = document.getElementById("preview");
+
+img.addEventListener("input", () => {
+    preview.src = img.value || "../images/avatar.png";
+});
+
+preview.addEventListener("error", () => {
+    preview.src = "../images/avatar.png";
+});
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();

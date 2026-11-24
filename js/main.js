@@ -12,6 +12,7 @@ let usuarios = [];
 async function carregarPosts() {
     try {
         const posts = await getPosts();
+        posts.sort((a, b) => new Date(b.data) - new Date(a.data));
         usuarios = await getUsers();
 
         postsContainer.innerHTML = "";
@@ -39,6 +40,11 @@ async function carregarPosts() {
 
             header.appendChild(avatar);
             header.appendChild(nome);
+
+            const dataPost = document.createElement("span");
+            dataPost.textContent = new Date(post.data).toLocaleDateString("pt-BR");
+
+            header.appendChild(dataPost);
 
             if (usuarioLogado && usuarioLogado.id === post.usuario) {
 
@@ -110,17 +116,30 @@ async function carregarPosts() {
             div.appendChild(coracao);
             div.appendChild(likes);
 
+            const botaoComentarios = document.createElement("button");
+            botaoComentarios.textContent = "Ver comentários (" + post.comentarios.length + ")";
+
             const comentarios = document.createElement("div");
             comentarios.classList.add("comments");
+            comentarios.hidden = true;
 
             post.comentarios.forEach(comentario => {
-                comentarios.appendChild(
-                    carregarComentarios(comentario)
-                );
+                comentarios.appendChild(carregarComentarios(comentario));
             });
 
-            div.appendChild(comentarios);
+            botaoComentarios.addEventListener("click", () => {
+                comentarios.hidden = !comentarios.hidden;
 
+                if (comentarios.hidden) {
+                    botaoComentarios.textContent = "Ver comentários (" + post.comentarios.length + ")";
+                } else {
+                    botaoComentarios.textContent = "Ocultar comentários";
+                }
+            });
+
+            div.appendChild(botaoComentarios);
+            div.appendChild(comentarios);
+            
             if (usuarioLogado && token) {
                 const formComentario = document.createElement("form");
                 formComentario.classList.add("comment-form");
@@ -383,7 +402,11 @@ function sessaoExpirada() {
 }
 
 function tratarErro(error) {
-    if (error.message === "Token inválido") {
+    if (
+        error.status === 401 ||
+        error.status === 403 ||
+        error.message === "Token inválido"
+    ) {
         sessaoExpirada();
     } else {
         alert(error.message);
@@ -392,11 +415,14 @@ function tratarErro(error) {
 
 async function verificarSessao() {
     if (!token) return;
-
     try {
         await checkUser(token);
     } catch (error) {
-        sessaoExpirada();
+        if (error.status === 401 || error.status === 403) {
+            sessaoExpirada();
+        } else {
+            console.error("Erro ao verificar sessão:", error);
+        }
     }
 }
 
